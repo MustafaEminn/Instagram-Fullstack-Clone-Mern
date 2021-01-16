@@ -1,0 +1,216 @@
+@import "../../themes/mediaQueries.scss";
+
+body {
+  background-color: var(--gray-fa);
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  min-height: 700px;
+  height: 100vh;
+}
+
+.container1 {
+  min-width: 454px;
+  min-height: 618px;
+  background-image: url(../../assets/images/global/telephone.webp);
+  background-repeat: no-repeat;
+  background-size: contain;
+  position: relative;
+  @include respond(875) {
+    display: none;
+  }
+
+  .ImgBox {
+    position: absolute;
+    right: 62px;
+    top: 98px;
+
+    & img {
+      position: absolute;
+      width: 242px;
+      height: 431px;
+      right: 0;
+      transition: all 3s;
+      opacity: 0;
+    }
+
+    & img:nth-child(1) {
+      opacity: 1;
+    }
+  }
+}
+
+.container2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.box1 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 380px;
+  width: 350px;
+  background: var(--white);
+  border: 1px solid var(--gray-db);
+  @include respond(450) {
+    background: none !important;
+    border: none;
+  }
+}
+
+.Label {
+  position: relative;
+  .Input {
+    padding: 10px 8px 8px 8px;
+    width: 250px;
+    border: 1px solid var(--gray-db);
+    outline: none;
+    border-radius: 3px;
+    font-size: 12px;
+    background-color: var(--gray-fa);
+    &:focus {
+      border: 1px solid var(--gray-a8);
+    }
+  }
+  & > span {
+    position: absolute;
+    left: 10px;
+    top: 12px;
+    font-size: 12px;
+    pointer-events: none;
+    color: var(--gray-8e);
+    transition: all 0.1s;
+  }
+  .inputButton {
+    position: absolute;
+    top: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    right: 4px;
+    z-index: 5;
+    color: var(--black-26);
+    cursor: pointer;
+
+    &:active {
+      color: var(--gray-8e);
+    }
+  }
+}
+
+#emailLabel {
+  margin-top: 36px;
+}
+
+#passLabel {
+  margin-top: 6px;
+}
+
+.login {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--white);
+  width: 268px;
+  height: 30px;
+  background: var(--blue-00);
+  border-radius: 3px;
+  margin-top: 14px;
+  &:disabled {
+    background: var(--blue-B2);
+  }
+}
+
+.or {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+  &::before {
+    content: "";
+    width: 108px;
+    height: 1px;
+    background-color: var(--gray-db);
+    margin-right: 16px;
+  }
+  &::after {
+    content: "";
+    width: 108px;
+    height: 1px;
+    background-color: var(--gray-db);
+    margin-left: 16px;
+  }
+
+  & > h5 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gray-8e);
+  }
+}
+
+.facebookLogin {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--blue-38);
+  margin-top: 31px;
+  cursor: pointer;
+
+  & > img {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+  }
+}
+
+.forgotPass {
+  color: var(--blue-0037);
+  font-size: 12px;
+  margin-top: 22px;
+}
+
+.box2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 350px;
+  height: 63px;
+  background: var(--white);
+  border: 1px solid var(--gray-db);
+  font-size: 14px;
+  margin-top: 12px;
+  @include respond(450) {
+    background: none !important;
+    border: none;
+  }
+}
+
+.getApp {
+  font-size: 14px;
+  margin-top: 24px;
+}
+
+.box3 {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 24px;
+
+  .astore {
+    width: 136px;
+    height: 40px;
+    margin-right: 4px;
+  }
+
+  .gplay {
+    width: 136px;
+    height: 40px;
+    margin-left: 4px;
+  }
+}
