@@ -49,6 +49,35 @@ exports.checkEmail = async (req, res, next) => {
   }
 };
 
+exports.toggleLike = async (req, res, next) => {
+  try {
+    const { id, username } = req.body;
+    const like = await User.toggleLike(username, id);
+    res.send({ success: true, data: like });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.checkLike = async (req, res, next) => {
+  try {
+    const { id, username } = req.body;
+    const like = await User.checkLike(username, id);
+    res.send({ success: true, data: like });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.getUsername = async (req, res, next) => {
+  try {
+    const user = await User.findUsernameOnId(req.params.id);
+    res.send({ success: true, data: user });
+  } catch (error) {
+    next(error);
+  }
+};
+
 exports.checkUsername = async (req, res, next) => {
   try {
     const { username } = req.body;

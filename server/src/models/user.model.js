@@ -37,6 +37,9 @@ const userSchema = new Schema(
       default: "user",
       enum: roles,
     },
+    likes: [],
+    follows: [],
+    bookmarks: [],
     createdAt: {
       type: Date,
       default: Date,
@@ -89,12 +92,64 @@ userSchema.statics = {
     }
   },
 
+  async toggleLike(username, id) {
+    const likeCheck = await this.findOne({ username }).exec();
+    const likeBool = likeCheck.likes.includes(id);
+    if (!likeBool) {
+      const like = await this.findOneAndUpdate(
+        { username },
+        { $push: { likes: id } }
+      ).exec();
+      if (!like) {
+        return false;
+      } else {
+        return like;
+      }
+    } else {
+      const newList = likeCheck.likes.filter((item) => {
+        item !== id;
+      });
+      const like = await this.findOneAndUpdate(
+        { username },
+        { $set: { likes: newList } }
+      ).exec();
+      if (!like) {
+        return false;
+      } else {
+        return like;
+      }
+      return false;
+    }
+  },
+
+  async checkLike(username, id) {
+    const likeCheck = await this.findOne({
+      username,
+    }).exec();
+    const likeBool = likeCheck.likes.includes(id);
+
+    if (!likeBool) {
+      return false;
+    } else {
+      return likeCheck;
+    }
+  },
+
   async findUsername(username) {
     const user = await this.findOne({ username }).exec();
     if (!user) {
       return false;
     } else {
       return true;
+    }
+  },
+
+  async findUsernameOnId(uniq) {
+    const user = await this.findOne({ email: uniq }).exec();
+    if (!user) {
+      return false;
+    } else {
+      return user;
     }
   },
 };

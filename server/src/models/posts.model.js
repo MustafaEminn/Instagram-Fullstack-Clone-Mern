@@ -1,9 +1,5 @@
 "use strict";
 const mongoose = require("mongoose");
-const httpStatus = require("http-status");
-const APIError = require("../utils/APIError");
-const bcrypt = require("bcrypt-nodejs");
-const config = require("../config");
 const Schema = mongoose.Schema;
 
 const postsSchema = new Schema(
@@ -28,6 +24,14 @@ const postsSchema = new Schema(
       type: Date,
       default: Date,
     },
+    description: {
+      type: String,
+      required: true,
+    },
+    img: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,
@@ -35,22 +39,14 @@ const postsSchema = new Schema(
 );
 
 postsSchema.statics = {
-  // async findEmail(email) {
-  //   const user = await this.findOne({ email }).exec();
-  //   if (!user) {
-  //     return false;
-  //   } else {
-  //     return true;
-  //   }
-  // },
-  // async findUsername(username) {
-  //   const user = await this.findOne({ username }).exec();
-  //   if (!user) {
-  //     return false;
-  //   } else {
-  //     return true;
-  //   }
-  // },
+  async getAll() {
+    const posts = await this.find({}).exec();
+    if (!posts) {
+      return false;
+    } else {
+      return posts;
+    }
+  },
 };
 
 module.exports = mongoose.model("Posts", postsSchema);

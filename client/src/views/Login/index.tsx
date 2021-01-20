@@ -11,7 +11,7 @@ import ss3 from "../../assets/images/global/telephoneScreenshots/3.webp";
 import ss4 from "../../assets/images/global/telephoneScreenshots/4.webp";
 import ss5 from "../../assets/images/global/telephoneScreenshots/5.webp";
 import { Link, useHistory } from "react-router-dom";
-import { postData } from "../../utils/API";
+import { getData, postData } from "../../utils/API";
 import { API_URL } from "../../utils/API_SETTINGS";
 
 const Login = () => {
@@ -59,7 +59,11 @@ const Login = () => {
       });
       const res = await post;
       if (res.data.success) {
+        const username = await getData(
+          `${API_URL}/api/auth/getUsername/${email}`
+        );
         localStorage.setItem("token", res.data.token);
+        localStorage.setItem("username", await username.data.data.username);
         route.push("/home");
         setError(false);
       } else {

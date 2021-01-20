@@ -5,6 +5,7 @@ const router = express.Router();
 const postsController = require("../../controllers/posts.controller");
 const auth = require("../../middlewares/authorization");
 
-router.post("/postsCreateImage", postsController.createPostImage);
+router.post("/postsCreate", auth(), postsController.createPost);
+router.get("/getAll", auth(), postsController.getAllPost);
 
 module.exports = router;

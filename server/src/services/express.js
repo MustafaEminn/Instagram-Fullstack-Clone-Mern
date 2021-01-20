@@ -10,20 +10,11 @@ const errorHandler = require("../middlewares/error-handler");
 const apiRouter = require("../routes/api");
 const passport = require("passport");
 const passportJwt = require("../services/passport");
-const multer = require("multer");
 
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 app.use(helmet());
-app.use(
-  multer({
-    dest: "../uploads/",
-    rename: function (fieldname, filename) {
-      return filename;
-    },
-  }).any()
-);
 
 if (config.env !== "test") app.use(morgan("combined"));
 

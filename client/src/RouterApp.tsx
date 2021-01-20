@@ -1,5 +1,6 @@
 import React from "react";
 import { Route } from "react-router-dom";
+import AuthRoute from "./components/AuthRoute";
 import Hey from "./views/Hey";
 import Home from "./views/Home";
 import Login from "./views/Login";
@@ -17,9 +18,9 @@ const RouterApp = () => {
       <Route path="/signup">
         <SignUp />
       </Route>
-      <Route path="/home">
+      <AuthRoute to="/home">
         <Home />
-      </Route>
+      </AuthRoute>
     </>
   );
 };

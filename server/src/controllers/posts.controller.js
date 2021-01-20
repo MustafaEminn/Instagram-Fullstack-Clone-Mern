@@ -4,7 +4,6 @@ const Posts = require("../models/posts.model");
 const jwt = require("jsonwebtoken");
 const config = require("../config");
 const bcrypt = require("bcrypt-nodejs");
-const postsImageModel = require("../models/postsImage.model");
 const fs = require("fs");
 
 exports.createPost = async (req, res, next) => {
@@ -19,14 +18,10 @@ exports.createPost = async (req, res, next) => {
   }
 };
 
-exports.createPostImage = async (req, res, next) => {
+exports.getAllPost = async (req, res, next) => {
   try {
-    const image = new postsImageModel();
-    console.log(req.files[0].path);
-    image.img.data = fs.readFileSync(req.files[0].path);
-    image.img.contentType = "image/png";
-    await image.save();
-    return res.status(200).send({ success: true });
+    const posts = Posts.getAll();
+    return res.status(200).send({ success: true, data: await posts });
   } catch (error) {
     console.log(error);
     return res.send({ success: false });

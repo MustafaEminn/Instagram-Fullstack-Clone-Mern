@@ -1,0 +1,39 @@
+.container {
+  position: fixed;
+  justify-content: center;
+  align-items: center;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+.modalBackground {
+  position: absolute;
+  background: var(--black);
+  width: 100vw;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  opacity: 0.5;
+}
+
+.modal {
+  background: var(--white);
+  padding: 15px;
+  z-index: 999;
+  border-radius: 14px;
+
+  & .modalHeader {
+    width: 100%;
+    text-align: right;
+    font-size: 20px;
+    border-bottom: 1px solid var(--gray);
+    color: var(--gray);
+    padding-bottom: 15px;
+
+    & p {
+      cursor: pointer;
+    }
+  }
+}

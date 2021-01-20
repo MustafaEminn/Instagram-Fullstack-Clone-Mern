@@ -4,16 +4,19 @@ import styles from "./CartPost.module.scss";
 interface cartpost {
   width: string;
   height: string;
+  index: number;
 }
 
-const CartPost = ({ width, height }: cartpost) => {
+const CartPost = ({ width, height, index }: cartpost) => {
   const textareaChecker = () => {
-    const taElement = document.getElementsByClassName("cardPostTextarea")[0];
+    const taElement = document.getElementsByClassName(
+      `cardPostTextarea${index}`
+    )[0];
     const taElementId = document.getElementById(
-      "cardPostTextarea"
+      `cardPostTextarea${index}`
     ) as HTMLTextAreaElement;
     const cartPostElement = document.getElementById(
-      "cartPostContainer"
+      `cartPostContainer${index}`
     ) as HTMLDivElement;
     if (
       taElement.scrollHeight > 22 &&
@@ -32,7 +35,7 @@ const CartPost = ({ width, height }: cartpost) => {
   return (
     <div
       style={{ width: width, height: height, minHeight: height }}
-      id="cartPostContainer"
+      id={`cartPostContainer${index}`}
       className={styles.container}
     >
       <textarea
@@ -43,8 +46,8 @@ const CartPost = ({ width, height }: cartpost) => {
         style={{
           height: "18px",
         }}
-        id="cardPostTextarea"
-        className="cardPostTextarea"
+        id={`cardPostTextarea${index}`}
+        className={`cardPostTextarea${index}`}
       ></textarea>
       <button>Post</button>
     </div>

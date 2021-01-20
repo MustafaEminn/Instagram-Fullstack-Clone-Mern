@@ -3,6 +3,17 @@
   height: 346px;
 }
 
+.addPost {
+  width: 100px;
+  height: 30px;
+  cursor: pointer;
+  font-size: 17px;
+  color: var(--white);
+  border-radius: 10px;
+  margin: 15px;
+  background: var(--instagram);
+}
+
 .cartInfo {
   background-color: var(--white);
   border: 1px solid var(--gray-ef);
@@ -93,5 +104,42 @@
 
   & .hr {
     background-color: var(--gray-ef);
+  }
+}
+
+.modal form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  background-color: var(--white);
+  z-index: 999;
+  opacity: 1;
+  flex-direction: column;
+
+  & label {
+    font-size: 14px;
+
+    & .fileInput {
+      max-width: 180px;
+    }
+    & .textInput {
+      border: 1px solid var(--gray-db);
+      outline: none;
+      padding: 2px 5px;
+      border-radius: 5px;
+      margin-top: 25px;
+    }
+  }
+  & .submitInput {
+    text-align: center;
+    width: 100px;
+    height: 40px;
+    outline: none;
+    border: none;
+    color: var(--white);
+    margin-top: 30px;
+    cursor: pointer;
+    background: var(--blue-00);
   }
 }
