@@ -1,7 +1,9 @@
 import React from "react";
 import { Route } from "react-router-dom";
 import Hey from "./views/Hey";
+import Home from "./views/Home";
 import Login from "./views/Login";
+import SignUp from "./views/SignUp";
 
 const RouterApp = () => {
   return (
@@ -11,6 +13,12 @@ const RouterApp = () => {
       </Route>
       <Route path="/hey">
         <Hey />
+      </Route>
+      <Route path="/signup">
+        <SignUp />
+      </Route>
+      <Route path="/home">
+        <Home />
       </Route>
     </>
   );

@@ -1,0 +1,28 @@
+.container {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--gray-ef);
+  margin-top: 10px;
+  & textarea {
+    resize: none;
+    width: 100%;
+    border: none;
+    outline: none;
+    padding-left: 16px;
+    font-family: "Roboto";
+    scrollbar-width: none;
+    &::placeholder {
+      font-family: "Roboto";
+    }
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  & button {
+    color: var(--blue-00);
+    font-size: 14px;
+    font-weight: 600;
+    margin-right: 10px;
+  }
+}

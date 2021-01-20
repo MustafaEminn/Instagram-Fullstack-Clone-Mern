@@ -1,9 +1,14 @@
-import express from 'express';
-import usersRoutes from './users.js';
-import messagesRoutes from './messages.js';
+"use strict";
+const express = require("express");
 const router = express.Router();
+const authRouter = require("./auth.route");
+const postsRouter = require("./posts.route");
 
-router.use('/users', usersRoutes);
-router.use('/messages', messagesRoutes);
+router.get("/status", (req, res) => {
+  res.send({ status: "OK" });
+}); // api status
 
-export default router;
+router.use("/auth", authRouter); // mount auth paths
+router.use("/posts", postsRouter); // mount auth paths
+
+module.exports = router;

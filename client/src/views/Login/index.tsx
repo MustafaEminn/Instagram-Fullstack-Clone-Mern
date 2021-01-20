@@ -10,12 +10,17 @@ import ss2 from "../../assets/images/global/telephoneScreenshots/2.webp";
 import ss3 from "../../assets/images/global/telephoneScreenshots/3.webp";
 import ss4 from "../../assets/images/global/telephoneScreenshots/4.webp";
 import ss5 from "../../assets/images/global/telephoneScreenshots/5.webp";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import { postData } from "../../utils/API";
+import { API_URL } from "../../utils/API_SETTINGS";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
+  const [error, setError] = useState(false);
+
+  const route = useHistory();
 
   // SLIDER
 
@@ -42,6 +47,27 @@ const Login = () => {
     }
   }, 6000);
 
+  // AUTH
+
+  const buttonTrue = email.length > 0 && password.length > 5;
+
+  const LoginFetch = async () => {
+    if (buttonTrue) {
+      const post: any = postData(`${API_URL}/api/auth/login`, {
+        email: email,
+        password: password,
+      });
+      const res = await post;
+      if (res.data.success) {
+        localStorage.setItem("token", res.data.token);
+        route.push("/home");
+        setError(false);
+      } else {
+        setError(true);
+      }
+    }
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.container1}>
@@ -60,7 +86,7 @@ const Login = () => {
       </div>
       <div className={styles.container2}>
         <div className={styles.box1}>
-          <Logo />
+          <Logo height="51" width="175" />
           <label id={styles.emailLabel} className={styles.Label}>
             <input
               onChange={(e) => {
@@ -76,7 +102,7 @@ const Login = () => {
                 email.length > 0 ? { top: "4px", fontSize: "10px" } : void 0
               }
             >
-              Phone number, username or email
+              Email
             </span>
           </label>
 
@@ -111,43 +137,55 @@ const Login = () => {
           <button
             disabled={email.length > 0 && password.length >= 6 ? false : true}
             className={styles.login}
+            onClick={LoginFetch}
           >
             Log In
           </button>
+          {error && (
+            <h4 className={styles.error}>Ops! Something went wrong.</h4>
+          )}
 
           <div className={styles.or}>
-            <span></span>
             <h5>OR</h5>
-            <span></span>
           </div>
 
-          <div className={styles.facebookLogin}>
+          <Link to="/hey" className={styles.facebookLogin}>
             <img src={facebook} alt="Facebook Logo" loading="lazy" />
             Log in with Facebook
-          </div>
+          </Link>
 
           <Link to="/hey" className={styles.forgotPass}>
             Forgot password?
           </Link>
         </div>
         <div className={styles.box2}>
-          <p>Don't have an account? Sign up</p>
+          <p>
+            Don't have an account?&nbsp;
+            <Link className={styles.signup} to="/signup">
+              Sign up
+            </Link>
+          </p>
         </div>
 
         <p className={styles.getApp}>Get the app.</p>
         <div className={styles.box3}>
-          <img
-            src={appstore}
-            className={styles.astore}
-            alt="App Store"
-            loading="lazy"
-          />
-          <img
-            src={googleplay}
-            className={styles.gplay}
-            alt="Google Play"
-            loading="lazy"
-          />
+          <a href="https://apps.apple.com/app/instagram/id389801252?vt=lo">
+            <img
+              src={appstore}
+              className={styles.astore}
+              alt="App Store"
+              loading="lazy"
+            />
+          </a>
+
+          <a href="https://play.google.com/store/apps/details?id=com.instagram.android">
+            <img
+              src={googleplay}
+              className={styles.gplay}
+              alt="Google Play"
+              loading="lazy"
+            />
+          </a>
         </div>
       </div>
     </div>

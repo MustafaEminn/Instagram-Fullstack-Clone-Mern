@@ -10,7 +10,7 @@ const Hey = () => {
         height: "100vh",
       }}
     >
-      <h1 style={{ fontSize: "44px" }}>Just clone. Relax 😊</h1>
+      <h1 style={{ fontSize: "44px" }}>This just clone. Relax 😊</h1>
     </div>
   );
 };

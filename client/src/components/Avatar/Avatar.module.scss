@@ -1,0 +1,11 @@
+.container {
+  border-radius: 999px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & img {
+    border-radius: 999px;
+  }
+}

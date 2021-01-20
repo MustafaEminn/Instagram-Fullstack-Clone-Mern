@@ -1,0 +1,109 @@
+@import "../themes/mediaQueries.scss";
+.container {
+  background-color: var(--gray-fa);
+}
+
+.containerHeader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  border-bottom: 1px solid var(--gray-db);
+  background-color: var(--white);
+  height: 54px;
+}
+
+.boxHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 935px;
+}
+
+.box1 {
+  & img {
+    margin-top: 10px;
+  }
+}
+
+.box2 {
+  margin-left: 76px;
+  @include respond(768) {
+    margin-left: 0;
+  }
+
+  & label {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    & input {
+      @include respond(545) {
+        width: 70px;
+      }
+      background-color: var(--gray-fa);
+      outline: none;
+      border: 1px solid var(--gray-db);
+      width: 170px;
+      height: 12px;
+      padding: 7px 29px 7px 7px;
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--gray-8e);
+      text-overflow: ellipsis;
+      text-align: center;
+    }
+
+    & input::placeholder {
+      font-size: 14px;
+      font-weight: 300;
+      padding-left: 30px;
+      color: var(--gray-8e);
+      text-align: center;
+    }
+
+    & .searchIcon1 {
+      @include respond(545) {
+        left: 10px;
+      }
+      position: absolute;
+      margin-right: 6px;
+      left: 69px;
+    }
+
+    & .searchIcon2 {
+      position: absolute;
+      right: 5px;
+    }
+
+    & input:focus {
+      width: 180px;
+      padding-left: 26px;
+      color: var(--black);
+      text-align: left;
+      @include respond(545) {
+        width: 70px;
+      }
+      & + .searchIcon1 {
+        left: 10px;
+      }
+
+      &::placeholder {
+        padding-left: 0px;
+        text-align: left;
+      }
+    }
+  }
+}
+
+.box3 {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 222px;
+}
+
+.containerContent {
+  max-width: 935px;
+  margin: 0 auto;
+}

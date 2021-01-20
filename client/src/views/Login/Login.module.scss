@@ -122,6 +122,7 @@ body {
   background: var(--blue-00);
   border-radius: 3px;
   margin-top: 14px;
+  cursor: pointer;
   &:disabled {
     background: var(--blue-B2);
   }
@@ -151,6 +152,12 @@ body {
     font-weight: 600;
     color: var(--gray-8e);
   }
+}
+
+.error {
+  color: var(--red-f5);
+  font-size: 14px;
+  margin-top: 15px;
 }
 
 .facebookLogin {
@@ -188,6 +195,12 @@ body {
   @include respond(450) {
     background: none !important;
     border: none;
+  }
+
+  & a {
+    color: var(--blue-00);
+    font-size: 14px;
+    font-weight: 600;
   }
 }
 

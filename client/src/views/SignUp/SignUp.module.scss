@@ -1,0 +1,247 @@
+@import "../../themes/mediaQueries.scss";
+
+body {
+  background-color: var(--gray-fa);
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  min-height: 700px;
+  height: 100vh;
+  margin-top: 50px;
+}
+
+.container2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.box1 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 542px;
+  width: 350px;
+  background: var(--white);
+  border: 1px solid var(--gray-db);
+  @include respond(450) {
+    background: none !important;
+    border: none;
+  }
+}
+
+.headText {
+  width: 268px;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--gray-8e);
+  text-align: center;
+  margin-top: 20px;
+}
+
+.loginFacebook {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--white);
+  width: 268px;
+  height: 30px;
+  background: var(--blue-00);
+  border-radius: 3px;
+  margin-top: 14px;
+  cursor: pointer;
+  &:disabled {
+    background: var(--blue-B2);
+  }
+
+  & img {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+  }
+}
+
+.Label {
+  position: relative;
+  .Input {
+    padding: 10px 30px 8px 8px;
+    width: 228px;
+    border: 1px solid var(--gray-db);
+    outline: none;
+    border-radius: 3px;
+    font-size: 12px;
+    background-color: var(--gray-fa);
+    &:focus {
+      border: 1px solid var(--gray-a8);
+    }
+  }
+  & > span {
+    position: absolute;
+    left: 10px;
+    top: 12px;
+    font-size: 12px;
+    pointer-events: none;
+    color: var(--gray-8e);
+    transition: all 0.1s;
+  }
+  .inputButton {
+    position: absolute;
+    top: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    right: 4px;
+    z-index: 5;
+    color: var(--black-26);
+    cursor: pointer;
+
+    &:active {
+      color: var(--gray-8e);
+    }
+  }
+
+  & img {
+    width: 22px;
+    height: 22px;
+    position: absolute;
+    right: 6px;
+    top: 8px;
+  }
+}
+
+#emailLabel {
+  margin-top: 36px;
+}
+
+#Name {
+  margin-top: 6px;
+}
+
+#Username {
+  margin-top: 6px;
+}
+
+#passLabel {
+  margin-top: 6px;
+  & input {
+    padding-right: 85px;
+    width: 175px;
+  }
+  & img {
+    right: 55px;
+  }
+}
+
+.login {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--white);
+  width: 268px;
+  min-height: 30px;
+  background: var(--blue-00);
+  border-radius: 3px;
+  margin-top: 14px;
+  cursor: pointer;
+  &:disabled {
+    background: var(--blue-B2);
+  }
+}
+
+.or {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+  &::before {
+    content: "";
+    width: 108px;
+    height: 1px;
+    background-color: var(--gray-db);
+    margin-right: 16px;
+  }
+  &::after {
+    content: "";
+    width: 108px;
+    height: 1px;
+    background-color: var(--gray-db);
+    margin-left: 16px;
+  }
+
+  & > h5 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gray-8e);
+  }
+}
+
+.box2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 350px;
+  height: 63px;
+  background: var(--white);
+  border: 1px solid var(--gray-db);
+  font-size: 14px;
+  margin-top: 12px;
+  @include respond(450) {
+    background: none !important;
+    border: none;
+  }
+
+  & a {
+    color: var(--blue-00);
+    font-size: 14px;
+  }
+}
+
+.error {
+  color: var(--red-f5);
+  font-size: 14px;
+  margin-top: 15px;
+}
+
+.policy {
+  width: 258px;
+  font-size: 12px;
+  color: var(--gray-8e);
+  text-align: center;
+  margin-top: 25px;
+  line-height: 16px;
+
+  & a {
+    font-size: 12px;
+    color: var(--gray-8e);
+    font-weight: 600;
+  }
+}
+
+.getApp {
+  font-size: 14px;
+  margin-top: 24px;
+}
+
+.box3 {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 24px;
+
+  .astore {
+    width: 136px;
+    height: 40px;
+    margin-right: 4px;
+  }
+
+  .gplay {
+    width: 136px;
+    height: 40px;
+    margin-left: 4px;
+  }
+}

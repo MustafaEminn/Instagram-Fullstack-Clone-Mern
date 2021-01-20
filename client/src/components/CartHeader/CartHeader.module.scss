@@ -1,0 +1,33 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--white);
+  border: 1px solid var(--gray-ef);
+}
+
+.pageName {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  margin-left: 20px;
+
+  & a:nth-child(2) {
+    color: var(--black);
+    margin-left: 16px;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  & a:nth-child(3) {
+    color: var(--blue-0095);
+    font-weight: 600;
+  }
+}
+.container p {
+  margin-right: 20px;
+  color: #262626;
+  font-size: 14px;
+}

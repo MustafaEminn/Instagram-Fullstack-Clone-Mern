@@ -1,26 +1,3 @@
-// @media only screen and (max-width: 1280px) {
-//   html {
-//     font-size: 16px !important;
-//   }
-// }
-
-// @media only screen and (max-width: 992px) {
-//   html {
-//     font-size: 14px !important;
-//   }
-// }
-
-// @media only screen and (max-width: 768px) {
-//   html {
-//     font-size: 12px !important;
-//   }
-// }
-
-// @media only screen and (max-width: 480px) {
-//   html {
-//     font-size: 10px !important;
-//   }
-// }
 @mixin respond($breakpoint) {
   @if $breakpoint==1280 {
     @media only screen and (max-width: 1280px) {
@@ -42,6 +19,12 @@
 
   @if $breakpoint==768 {
     @media only screen and (max-width: 768px) {
+      @content;
+    }
+  }
+
+  @if $breakpoint==545 {
+    @media only screen and (max-width: 545px) {
       @content;
     }
   }
