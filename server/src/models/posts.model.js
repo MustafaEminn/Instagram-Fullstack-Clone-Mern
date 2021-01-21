@@ -8,7 +8,8 @@ const postsSchema = new Schema(
       type: String,
       required: true,
     },
-    likes: {
+    likes: [],
+    likesNumber: {
       type: Number,
       default: 0,
     },
@@ -16,10 +17,7 @@ const postsSchema = new Schema(
       type: Number,
       default: 0,
     },
-    comments: {
-      type: Array,
-      default: [],
-    },
+    comments: [],
     createdAt: {
       type: Date,
       default: Date,
@@ -45,6 +43,39 @@ postsSchema.statics = {
       return false;
     } else {
       return posts;
+    }
+  },
+
+  async addLike(id, username) {
+    const posts = await this.findOne({ _id: id }).exec();
+
+    const likeCount = posts.likesNumber;
+    const likeBool = posts.likes.includes(username);
+    if (!likeBool) {
+      const postsUpdate = await this.findOneAndUpdate(
+        { _id: id },
+        { $set: { likesNumber: likeCount + 1 }, $push: { likes: username } },
+        { new: true }
+      ).exec();
+      if (!posts) {
+        return false;
+      } else {
+        return postsUpdate;
+      }
+    } else {
+      const newList = posts.likes.filter((item) => {
+        return item !== username;
+      });
+      const postsUpdate = await this.findOneAndUpdate(
+        { _id: id },
+        { $set: { likesNumber: likeCount - 1, likes: newList } },
+        { new: true }
+      ).exec();
+      if (!posts) {
+        return false;
+      } else {
+        return postsUpdate;
+      }
     }
   },
 };

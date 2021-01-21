@@ -11,8 +11,12 @@ router.post("/register", validator(create), authController.register); // validat
 router.post("/login", authController.login);
 router.post("/checkEmail", authController.checkEmail);
 router.post("/checkUsername", authController.checkUsername);
-router.post("/addLike", authController.toggleLike);
+router.post("/toggleLike", authController.toggleLike);
 router.post("/checkLike", authController.checkLike);
+router.post("/toggleBookmark", authController.toggleBookmark);
+router.post("/checkBookmark", authController.checkBookmark);
+router.post("/toggleFollow", authController.toggleFollow);
+router.post("/checkFollow", authController.checkFollow);
 router.get("/getUsername/:id", authController.getUsername);
 router.post("/authCheck", auth(), (req, res) => {
   res.status(200).send({ success: true });

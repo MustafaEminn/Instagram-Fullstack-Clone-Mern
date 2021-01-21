@@ -6,6 +6,7 @@ const postsController = require("../../controllers/posts.controller");
 const auth = require("../../middlewares/authorization");
 
 router.post("/postsCreate", auth(), postsController.createPost);
+router.post("/addLike", auth(), postsController.addLike);
 router.get("/getAll", auth(), postsController.getAllPost);
 
 module.exports = router;

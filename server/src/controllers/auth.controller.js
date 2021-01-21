@@ -28,7 +28,7 @@ exports.login = async (req, res, next) => {
     const user = await User.findAndGenerateToken(req.body);
     if (user) {
       const payload = { sub: user.id };
-      const token = jwt.sign(payload, config.secret, { expiresIn: "1h" });
+      const token = jwt.sign(payload, config.secret, { expiresIn: "1d" });
       return res.send({ success: true, message: "OK", token: token });
     } else {
       res.send({ success: false });
@@ -64,6 +64,46 @@ exports.checkLike = async (req, res, next) => {
     const { id, username } = req.body;
     const like = await User.checkLike(username, id);
     res.send({ success: true, data: like });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.toggleBookmark = async (req, res, next) => {
+  try {
+    const { id, username } = req.body;
+    const bookmark = await User.toggleBookmark(username, id);
+    res.send({ success: true, data: bookmark });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.checkBookmark = async (req, res, next) => {
+  try {
+    const { id, username } = req.body;
+    const bookmark = await User.checkBookmark(username, id);
+    res.send({ success: true, data: bookmark });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.toggleFollow = async (req, res, next) => {
+  try {
+    const { username, usernamePost } = req.body;
+    const follow = await User.toggleFollow(username, usernamePost);
+    res.send({ success: true, data: follow });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.checkFollow = async (req, res, next) => {
+  try {
+    const { username, usernamePost } = req.body;
+    const follow = await User.checkFollow(username, usernamePost);
+    res.send({ success: true, data: follow });
   } catch (error) {
     console.log(error);
   }

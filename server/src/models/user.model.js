@@ -107,7 +107,7 @@ userSchema.statics = {
       }
     } else {
       const newList = likeCheck.likes.filter((item) => {
-        item !== id;
+        return item !== id;
       });
       const like = await this.findOneAndUpdate(
         { username },
@@ -118,7 +118,6 @@ userSchema.statics = {
       } else {
         return like;
       }
-      return false;
     }
   },
 
@@ -132,6 +131,88 @@ userSchema.statics = {
       return false;
     } else {
       return likeCheck;
+    }
+  },
+
+  async toggleBookmark(username, id) {
+    const bookmarkCheck = await this.findOne({ username }).exec();
+    const bookmarkBool = bookmarkCheck.bookmarks.includes(id);
+    if (!bookmarkBool) {
+      const bookmark = await this.findOneAndUpdate(
+        { username },
+        { $push: { bookmarks: id } }
+      ).exec();
+      if (!bookmark) {
+        return false;
+      } else {
+        return bookmark;
+      }
+    } else {
+      const newList = bookmarkCheck.bookmarks.filter((item) => {
+        return item !== id;
+      });
+      const bookmark = await this.findOneAndUpdate(
+        { username },
+        { $set: { bookmarks: newList } }
+      ).exec();
+      if (!bookmark) {
+        return false;
+      } else {
+        return bookmark;
+      }
+    }
+  },
+
+  async checkBookmark(username, id) {
+    const bookmarkCheck = await this.findOne({
+      username,
+    }).exec();
+    const bookmarkBool = bookmarkCheck.bookmarks.includes(id);
+    if (!bookmarkBool) {
+      return false;
+    } else {
+      return bookmarkCheck;
+    }
+  },
+
+  async toggleFollow(username, usernamePost) {
+    const followCheck = await this.findOne({ username }).exec();
+    const followBool = followCheck.follows.includes(usernamePost);
+    if (!followBool) {
+      const follow = await this.findOneAndUpdate(
+        { username },
+        { $push: { follows: usernamePost } }
+      ).exec();
+      if (!follow) {
+        return false;
+      } else {
+        return follow;
+      }
+    } else {
+      const newList = bookmarkCheck.bookmarks.filter((item) => {
+        return item !== usernamePost;
+      });
+      const follow = await this.findOneAndUpdate(
+        { username },
+        { $set: { follows: newList } }
+      ).exec();
+      if (!follow) {
+        return false;
+      } else {
+        return follow;
+      }
+    }
+  },
+
+  async checkFollow(username, usernamePost) {
+    const followCheck = await this.findOne({
+      username,
+    }).exec();
+    const followBool = followCheck.follows.includes(usernamePost);
+    if (!followBool) {
+      return false;
+    } else {
+      return followCheck;
     }
   },
 

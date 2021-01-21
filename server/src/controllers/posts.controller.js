@@ -9,8 +9,8 @@ const fs = require("fs");
 exports.createPost = async (req, res, next) => {
   try {
     const body = req.body;
-    const user = new Posts(body);
-    await user.save();
+    const posts = new Posts(body);
+    await posts.save();
     res.status(200).send({ success: true });
   } catch (error) {
     console.log(error);
@@ -22,6 +22,17 @@ exports.getAllPost = async (req, res, next) => {
   try {
     const posts = Posts.getAll();
     return res.status(200).send({ success: true, data: await posts });
+  } catch (error) {
+    console.log(error);
+    return res.send({ success: false });
+  }
+};
+
+exports.addLike = async (req, res, next) => {
+  try {
+    const { id, username } = req.body;
+    const posts = Posts.addLike(id, username);
+    return res.status(200).send({ success: true, data: posts });
   } catch (error) {
     console.log(error);
     return res.send({ success: false });
