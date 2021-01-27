@@ -1,45 +1,45 @@
 import React, { useEffect, useRef, useState } from "react";
-import CartHeader from "../../components/CartHeader";
 import Layout from "../../layout";
 import styles from "./Home.module.scss";
 
-import HearthIcon from "../../assets/images/global/icons/Hearth";
-import CommentIcon from "../../assets/images/global/icons/Comment";
-import SendIcon from "../../assets/images/global/icons/Send";
-import BookmarkIcon from "../../assets/images/global/icons/Bookmark";
-import CartPost from "../../components/CartPost";
 import { API_URL } from "../../utils/API_SETTINGS";
 import { postData, getData } from "../../utils/API";
 import Modal from "../../components/Modal";
-import moment from "moment";
+import Avatar from "../../components/Avatar";
+import Spinner from "../../components/Spinner";
+import Post from "../../components/Post";
+import AuthMiddleware from "../../utils/AuthMiddleware";
 
 const Home = () => {
-  const [file, setFile] = useState(null);
+  const [file, setFile] = useState("");
   const [content, setContent] = useState("");
   const [visible, setVisible] = useState(false);
+  const [loadingPost, setLoadingPost] = useState(true);
+  const [loadingUser, setLoadingUser] = useState(true);
+  const [user, setUser] = useState<any>();
   const [data, setData] = useState<any>([]);
   const fileInputRef = useRef<any>();
   const contentInputRef = useRef<any>();
-  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFile(e.target.files[0]);
+
+  const handleOnChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const reader = new Promise<string>((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(e.target.files[0]);
+      reader.onload = () => resolve(reader.result.toString());
+      reader.onerror = (error) => reject(error);
+    });
+    setFile(await reader);
   };
 
   const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const reader = new Promise<string>((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result.toString());
-      reader.onerror = (error) => reject(error);
-    });
-
     const req = postData(`${API_URL}/api/posts/postsCreate`, {
       username: localStorage.getItem("username"),
-      img: reader,
+      img: file,
       description: content,
     });
     const res = await req;
-    if (res.data.success) {
+    if (res?.data?.success) {
       fileInputRef.current.value = "";
       contentInputRef.current.value = "";
       setVisible(false);
@@ -53,65 +53,50 @@ const Home = () => {
       var promisePosts: any = getData(`${API_URL}/api/posts/getAll`);
       var setPosts = await promisePosts;
       setData(setPosts?.data?.data);
+      setLoadingPost(false);
+    };
+    const getUser = async () => {
+      var promisePosts: any = postData(`${API_URL}/api/auth/getUser`);
+      var user = await promisePosts;
+      console.log(user);
+      setUser(user?.data?.data);
+      setLoadingUser(false);
     };
     getPosts();
+    getUser();
   }, []);
 
   return (
     <Layout>
-      <img src="data:image/png;base64,base64code" alt="" />
-      <button className={styles.addPost} onClick={() => setVisible(true)}>
-        Add Post
-      </button>
-      {data?.map((item: any, index: number) => {
-        return (
-          <div className={styles.cart}>
-            <CartHeader
-              username={item.username}
+      <AuthMiddleware onAuth={false} noAuth="/" />
+      <div className={styles.container}>
+        <div className={styles.box1}>
+          <button className={styles.addPost} onClick={() => setVisible(true)}>
+            Add Post
+          </button>
+          {loadingPost ? (
+            <Spinner
               width="614px"
-              height="60px"
-              pageName={item.username}
+              height="100px"
+              spinnerWidth="20px"
+              spinnerHeight="20px"
             />
-            <img className={styles.img} src={item.img} alt="Simple 1 Photo" />
-            <div className={styles.cartInfo}>
-              <div className={styles.cartIcons}>
-                <div className={styles.CILeft}>
-                  <HearthIcon obId={item._id} width={24} height={24} />
-                  <CommentIcon width={24} height={24} />
-                  <SendIcon width={24} height={24} />
-                </div>
-                <div className={styles.CIRight}>
-                  <BookmarkIcon obId={item._id} width={24} height={24} />
-                </div>
-              </div>
-              <div className={styles.likes}>
-                {item.likesNumber < 2
-                  ? `${item.likesNumber} like`
-                  : `${item.likesNumber} likes`}
-              </div>
-              <div className={styles.cartName}>
-                {item.username}&nbsp;
-                <p className={styles.cartNameContent}>{item.description}</p>
-              </div>
-              <div className={styles.comments}>
-                {item.comments[0] &&
-                  `View all ${item.comments.length + 1} comments`}
-              </div>
-
-              <div className={styles.commentName}>
-                elonmusk&nbsp;
-                <p className={styles.commentContent}>ELON!</p>
-              </div>
-
-              <div className={styles.timeAgo}>
-                {moment(item.createdAt).fromNow()}
-              </div>
-              <CartPost index={index} width="614px" height="56px" />
+          ) : (
+            data?.map((item: any, index: number) => {
+              return <Post data={item} index={index} />;
+            })
+          )}
+        </div>
+        <div className={styles.sidebar}>
+          <div className={styles.sidebarHead}>
+            <Avatar width={56} height={56} />
+            <div className={styles.shDetail}>
+              <p>{user?.username || ""}</p>
+              <p>{user?.fullname || ""}</p>
             </div>
           </div>
-        );
-      })}
-
+        </div>
+      </div>
       <Modal
         visible={visible}
         onClose={() => setVisible(false)}

@@ -1,9 +1,9 @@
 #borderDisable {
   position: absolute;
   fill: none;
-  stroke: #8a3ab9;
+  stroke: #cd486b;
   stroke-linecap: round;
-  stroke-width: 3;
+  stroke-width: 2;
   stroke-dasharray: 1;
   stroke-dashoffset: 0;
   z-index: 1;
@@ -11,9 +11,9 @@
 #borderActive {
   position: absolute;
   fill: none;
-  stroke: #8a3ab9;
+  stroke: #cd486b;
   stroke-linecap: round;
-  stroke-width: 3;
+  stroke-width: 2;
   stroke-dasharray: 1;
   stroke-dashoffset: 0;
   z-index: 1;
@@ -22,11 +22,11 @@
 
 @keyframes stroke-draw {
   from {
-    stroke: #8a3ab9;
+    stroke: #cd486b;
     stroke-dasharray: 1;
   }
   to {
-    stroke: #cd486b;
+    stroke: #8a3ab9;
     transform: rotate(180deg);
     stroke-dasharray: 12;
   }

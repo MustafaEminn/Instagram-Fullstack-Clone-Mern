@@ -12,7 +12,7 @@ const passport = require("passport");
 const passportJwt = require("../services/passport");
 
 const app = express();
-app.use(bodyParser.json());
+app.use(bodyParser.json({ extended: true, limit: "20mb" }));
 app.use(cors());
 app.use(helmet());
 

@@ -7,6 +7,10 @@ const auth = require("../../middlewares/authorization");
 
 router.post("/postsCreate", auth(), postsController.createPost);
 router.post("/addLike", auth(), postsController.addLike);
-router.get("/getAll", auth(), postsController.getAllPost);
+router.post("/addComment", auth(), postsController.addComment);
+router.post("/checkPostAdmin", auth(), postsController.checkPostAdmin);
+router.post("/deletePost", auth(), postsController.deletePost);
+router.post("/getUserPost", auth(), postsController.getUserPost);
+router.get("/getAll", postsController.getAllPost);
 
 module.exports = router;

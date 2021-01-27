@@ -1,27 +1,37 @@
 import React from "react";
-import { Route } from "react-router-dom";
-import AuthRoute from "./components/AuthRoute";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import AuthRouteDefault from "./components/AuthRoute";
+import Error404 from "./views/404";
 import Hey from "./views/Hey";
 import Home from "./views/Home";
 import Login from "./views/Login";
+import Profiles from "./views/Profiles";
 import SignUp from "./views/SignUp";
 
 const RouterApp = () => {
   return (
-    <>
-      <Route path="/" exact>
-        <Login />
-      </Route>
-      <Route path="/hey">
-        <Hey />
-      </Route>
-      <Route path="/signup">
-        <SignUp />
-      </Route>
-      <AuthRoute to="/home">
-        <Home />
-      </AuthRoute>
-    </>
+    <BrowserRouter>
+      <Switch>
+        <Route path="/" exact>
+          <Login />
+        </Route>
+        <Route path="/hey">
+          <Hey />
+        </Route>
+        <Route path="/signup">
+          <SignUp />
+        </Route>
+        <Route path="/home">
+          <Home />
+        </Route>
+        <Route path="/404">
+          <Error404 />
+        </Route>
+        <Route path="/profiles/:username">
+          <Profiles />
+        </Route>
+      </Switch>
+    </BrowserRouter>
   );
 };
 

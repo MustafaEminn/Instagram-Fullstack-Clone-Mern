@@ -225,8 +225,26 @@ userSchema.statics = {
     }
   },
 
-  async findUsernameOnId(uniq) {
+  async findUsernameOnEmail(uniq) {
     const user = await this.findOne({ email: uniq }).exec();
+    if (!user) {
+      return false;
+    } else {
+      return user;
+    }
+  },
+
+  async findUserOnUsername(username) {
+    const user = await this.findOne({ username: username }).exec();
+    if (!user) {
+      return false;
+    } else {
+      return user;
+    }
+  },
+
+  async findUsernameOnId(uniq) {
+    const user = await this.findOne({ _id: uniq }).exec();
     if (!user) {
       return false;
     } else {

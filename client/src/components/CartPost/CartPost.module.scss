@@ -24,5 +24,10 @@
     font-size: 14px;
     font-weight: 600;
     margin-right: 10px;
+    cursor: pointer;
+    &:disabled {
+      opacity: 0.3;
+      cursor: default;
+    }
   }
 }

@@ -9,6 +9,7 @@ interface avatar {
   border?: boolean;
   borderHeight?: number;
   borderWidth?: number;
+  margin?: string;
 }
 
 const Avatar = ({
@@ -17,6 +18,7 @@ const Avatar = ({
   border,
   borderWidth,
   borderHeight,
+  margin,
 }: avatar) => {
   const [avatarClick, setAvatarClick] = useState(true);
 
@@ -31,7 +33,13 @@ const Avatar = ({
     }
   };
   return (
-    <div style={{ width: width, height: height }} className={styles.container}>
+    <div
+      style={{ width: width, height: height, margin: margin }}
+      className={styles.container}
+      onClick={() => {
+        borderClick();
+      }}
+    >
       <img
         src={elon}
         width={width}

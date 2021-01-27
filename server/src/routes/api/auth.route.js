@@ -18,6 +18,8 @@ router.post("/checkBookmark", authController.checkBookmark);
 router.post("/toggleFollow", authController.toggleFollow);
 router.post("/checkFollow", authController.checkFollow);
 router.get("/getUsername/:id", authController.getUsername);
+router.post("/getUser", auth(), authController.getUser);
+router.post("/getUserOnUsername", auth(), authController.getUserOnUsername);
 router.post("/authCheck", auth(), (req, res) => {
   res.status(200).send({ success: true });
 });

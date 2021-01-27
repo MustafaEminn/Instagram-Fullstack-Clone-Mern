@@ -11,6 +11,7 @@ import { postData } from "../../utils/API";
 import { API_URL } from "../../utils/API_SETTINGS";
 import { checkString } from "../../utils/helpers";
 import { Link, useHistory } from "react-router-dom";
+import AuthMiddleware from "../../utils/AuthMiddleware";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -67,6 +68,7 @@ const SignUp = () => {
 
   return (
     <div className={styles.container}>
+      <AuthMiddleware onAuth="/home" noAuth={false} />
       <div className={styles.container2}>
         <div className={styles.box1}>
           <Logo height="51" width="175" />

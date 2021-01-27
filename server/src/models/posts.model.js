@@ -78,6 +78,46 @@ postsSchema.statics = {
       }
     }
   },
+
+  async addComment(id, username, message) {
+    let posts = await this.findOne({ _id: id }).exec();
+    let commentsNumber = posts.commentsNumber;
+    let postsUpdate = await this.findOneAndUpdate(
+      { _id: id },
+      {
+        $push: { comments: { username: username, message: message } },
+        $set: { commentsNumber: commentsNumber + 1 },
+      },
+      { new: true }
+    ).exec();
+    if (!posts) {
+      return false;
+    } else {
+      return postsUpdate;
+    }
+  },
+
+  async deletePost(id) {
+    let deletedPost = await this.findOneAndDelete({ _id: id }).exec();
+    if (!deletedPost) {
+      return false;
+    } else {
+      return true;
+    }
+  },
+
+  async checkPostAdmin(username, id) {
+    let user = await this.findOne({ username: username }).exec();
+    if (user._id === id) {
+      return true;
+    } else {
+      return false;
+    }
+  },
+  async getUserPost(username) {
+    let user = await this.find({ username: username }).exec();
+    return user;
+  },
 };
 
 module.exports = mongoose.model("Posts", postsSchema);

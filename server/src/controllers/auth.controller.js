@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const config = require("../config");
 const httpStatus = require("http-status");
 const bcrypt = require("bcrypt-nodejs");
+const { default: jwtDecode } = require("jwt-decode");
 
 exports.register = async (req, res, next) => {
   try {
@@ -111,9 +112,32 @@ exports.checkFollow = async (req, res, next) => {
 
 exports.getUsername = async (req, res, next) => {
   try {
-    const user = await User.findUsernameOnId(req.params.id);
+    const user = await User.findUsernameOnEmail(req.params.id);
     res.send({ success: true, data: user });
   } catch (error) {
+    next(error);
+  }
+};
+
+exports.getUser = async (req, res, next) => {
+  try {
+    let auth = await req.headers.authorization;
+    var jwtDecoded = await jwtDecode(auth);
+    const user = await User.findUsernameOnId(jwtDecoded.sub);
+    res.send({ success: true, data: user });
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
+
+exports.getUserOnUsername = async (req, res, next) => {
+  try {
+    let { username } = req.body;
+    const user = await User.findUserOnUsername(username);
+    res.send({ success: true, data: user });
+  } catch (error) {
+    console.log(error);
     next(error);
   }
 };

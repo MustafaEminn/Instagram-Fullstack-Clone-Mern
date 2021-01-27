@@ -1,13 +1,20 @@
 import React, { useState } from "react";
+import { postData } from "../../utils/API";
+import { API_URL } from "../../utils/API_SETTINGS";
 import styles from "./CartPost.module.scss";
+import { postCommentTrigger as PCT } from "../../store/atom";
+import { useRecoilState } from "recoil";
 
 interface cartpost {
   width: string;
   height: string;
   index: number;
+  postInfo: { name: string; obId: string };
 }
 
-const CartPost = ({ width, height, index }: cartpost) => {
+const CartPost = ({ width, height, index, postInfo }: cartpost) => {
+  const [textValue, setTextValue] = useState("");
+  const [postCommentTrigger, setPostCommentTrigger] = useRecoilState(PCT);
   const textareaChecker = () => {
     const taElement = document.getElementsByClassName(
       `cardPostTextarea${index}`
@@ -32,6 +39,25 @@ const CartPost = ({ width, height, index }: cartpost) => {
     }
   };
 
+  const addComment = async () => {
+    if (textValue.length >= 10) {
+      let req = postData(
+        `${API_URL}/api/posts/addComment`,
+        JSON.stringify({ ...postInfo, message: textValue })
+      );
+
+      let res = await req;
+      if (res.data.success) {
+        setTextValue("");
+        setPostCommentTrigger({
+          id: postInfo.obId,
+          username: postInfo.name,
+          message: textValue,
+        });
+      }
+    }
+  };
+
   return (
     <div
       style={{ width: width, height: height, minHeight: height }}
@@ -46,10 +72,17 @@ const CartPost = ({ width, height, index }: cartpost) => {
         style={{
           height: "18px",
         }}
+        value={textValue}
+        onChange={(e) => setTextValue(e.target.value)}
         id={`cardPostTextarea${index}`}
         className={`cardPostTextarea${index}`}
       ></textarea>
-      <button>Post</button>
+      <button
+        disabled={textValue.length < 10 ? true : false}
+        onClick={addComment}
+      >
+        Post
+      </button>
     </div>
   );
 };

@@ -6,6 +6,7 @@
   top: 0;
   width: 100vw;
   height: 100vh;
+  z-index: 999999999;
 }
 
 .modalBackground {
@@ -31,9 +32,12 @@
     border-bottom: 1px solid var(--gray);
     color: var(--gray);
     padding-bottom: 15px;
+    display: flex;
+    justify-content: flex-end;
 
     & p {
       cursor: pointer;
+      width: 10px;
     }
   }
 }

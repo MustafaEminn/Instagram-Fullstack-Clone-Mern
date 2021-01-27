@@ -13,6 +13,7 @@ import ss5 from "../../assets/images/global/telephoneScreenshots/5.webp";
 import { Link, useHistory } from "react-router-dom";
 import { getData, postData } from "../../utils/API";
 import { API_URL } from "../../utils/API_SETTINGS";
+import AuthMiddleware from "../../utils/AuthMiddleware";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -74,6 +75,7 @@ const Login = () => {
 
   return (
     <div className={styles.container}>
+      <AuthMiddleware onAuth="/home" noAuth={false} />
       <div className={styles.container1}>
         <div
           className={styles.ImgBox}

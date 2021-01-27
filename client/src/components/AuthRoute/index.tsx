@@ -8,7 +8,7 @@ interface authroute {
   to: string;
 }
 
-const AuthRoute = ({ children, to }: authroute) => {
+const AuthRouteDefault = ({ children, to }: authroute) => {
   const [auth, setAuth] = useState(false);
   const link = useHistory();
 
@@ -16,8 +16,8 @@ const AuthRoute = ({ children, to }: authroute) => {
     const authCheck = async () => {
       var dataPromise = postData(`${API_URL}/api/auth/authCheck`);
       var data = await dataPromise;
-      if (data?.data.success !== undefined && data?.data.success) {
-        return setAuth(true);
+      if (data?.data.success) {
+        setAuth(true);
       } else {
         link.push("/");
       }
@@ -30,4 +30,4 @@ const AuthRoute = ({ children, to }: authroute) => {
   );
 };
 
-export default AuthRoute;
+export default AuthRouteDefault;
