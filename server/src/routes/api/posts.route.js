@@ -11,6 +11,7 @@ router.post("/addComment", auth(), postsController.addComment);
 router.post("/checkPostAdmin", auth(), postsController.checkPostAdmin);
 router.post("/deletePost", auth(), postsController.deletePost);
 router.post("/getUserPost", auth(), postsController.getUserPost);
+router.post("/getPostOnId", auth(), postsController.getPostOnId);
 router.get("/getAll", postsController.getAllPost);
 
 module.exports = router;

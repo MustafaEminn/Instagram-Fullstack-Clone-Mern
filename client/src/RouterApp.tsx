@@ -5,6 +5,7 @@ import Error404 from "./views/404";
 import Hey from "./views/Hey";
 import Home from "./views/Home";
 import Login from "./views/Login";
+import Posts from "./views/Posts";
 import Profiles from "./views/Profiles";
 import SignUp from "./views/SignUp";
 
@@ -15,7 +16,7 @@ const RouterApp = () => {
         <Route path="/" exact>
           <Login />
         </Route>
-        <Route path="/hey">
+        <Route exact path="/hey">
           <Hey />
         </Route>
         <Route path="/signup">
@@ -23,6 +24,9 @@ const RouterApp = () => {
         </Route>
         <Route path="/home">
           <Home />
+        </Route>
+        <Route path="/posts/:id">
+          <Posts />
         </Route>
         <Route path="/404">
           <Error404 />

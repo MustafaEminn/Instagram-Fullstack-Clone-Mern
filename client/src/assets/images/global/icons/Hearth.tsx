@@ -3,11 +3,9 @@ import { postData } from "../../../../utils/API";
 import { API_URL } from "../../../../utils/API_SETTINGS";
 import { photoClickTrigger as PCT } from "../../../../store/atom";
 import { useRecoilValue } from "recoil";
-import { JsxEmit } from "typescript";
 
 function HearthIcon(props: any) {
   const [like, setLike] = React.useState("white");
-  const svgElement = document.getElementsByClassName("hearthSvg")[props.index];
   const svgRef = React.useRef<any>(null);
   const photoClickTrigger = useRecoilValue(PCT);
   const toggleLike = async (id: string) => {
@@ -30,16 +28,35 @@ function HearthIcon(props: any) {
   };
 
   const toggleHearthColor = () => {
-    let element = svgElement.parentElement.parentElement.parentElement
-      .childNodes[1].childNodes[0] as HTMLParagraphElement;
-    let likeCount = element.innerText;
-    toggleLike(props.obId);
-    if (like === "white") {
-      element.innerText = String(+likeCount + 1);
-      setLike("#ED4956");
-    } else {
-      element.innerText = String(+likeCount === 0 ? 0 : +likeCount - 1);
-      setLike("white");
+    try {
+      const svgElement = document.getElementsByClassName("hearthSvg")[
+        props.index
+      ];
+      let element;
+      if (!props.postPage && !props.postPageResponsive) {
+        element = svgElement.parentElement.parentElement.parentElement
+          .childNodes[1].childNodes[0] as HTMLParagraphElement;
+      }
+
+      if (props.postPage) {
+        element = svgElement.parentElement.parentElement.parentElement
+          .childNodes[1].childNodes[0] as HTMLHeadingElement;
+      }
+      if (props.postPageResponsive) {
+        element = svgElement.parentElement.parentElement.parentElement
+          .childNodes[1].childNodes[0] as HTMLHeadingElement;
+      }
+      let likeCount = element.innerText;
+      toggleLike(props.obId);
+      if (like === "white") {
+        element.innerText = String(+likeCount + 1);
+        setLike("#ED4956");
+      } else {
+        element.innerText = String(+likeCount === 0 ? 0 : +likeCount - 1);
+        setLike("white");
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 

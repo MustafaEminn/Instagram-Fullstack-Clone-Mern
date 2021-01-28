@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import React from "react";
+import { Link } from "react-router-dom";
 import { postData } from "../../utils/API";
 import { API_URL } from "../../utils/API_SETTINGS";
 import Avatar from "../Avatar";
@@ -24,7 +24,6 @@ const CartHeader = ({
   const [followBool, setFollowBool] = React.useState<boolean>();
   const [visibleModal, setVisibleModal] = React.useState<boolean>();
   const [postAdmin, setPostAdmin] = React.useState<boolean>(false);
-  const link = useHistory();
 
   const toggleFollow = async () => {
     const req = postData(`${API_URL}/api/auth/toggleFollow`, {
@@ -80,8 +79,8 @@ const CartHeader = ({
           borderWidth={46}
           borderHeight={46}
         />
-        <Link to={`profiles/${pageName}`}>{pageName}</Link>
-        {!followBool && (
+        <Link to={`/profiles/${pageName}`}>{pageName}</Link>
+        {!followBool && !postAdmin ? (
           <span>
             &nbsp;&bull;&nbsp;
             <span
@@ -93,6 +92,8 @@ const CartHeader = ({
               Follow
             </span>
           </span>
+        ) : (
+          void 0
         )}
       </div>
       <p onClick={dotsClick} className={styles.dots}>

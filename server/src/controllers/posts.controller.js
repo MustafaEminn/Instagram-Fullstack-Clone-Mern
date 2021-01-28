@@ -75,6 +75,17 @@ exports.getUserPost = async (req, res, next) => {
   }
 };
 
+exports.getPostOnId = async (req, res, next) => {
+  try {
+    const { id } = req.body;
+    const userPost = Posts.getPostOnId(id);
+    return res.status(200).send({ success: true, data: await userPost });
+  } catch (error) {
+    console.log(error);
+    return res.send({ success: false });
+  }
+};
+
 exports.deletePost = async (req, res, next) => {
   try {
     const { id } = req.body;

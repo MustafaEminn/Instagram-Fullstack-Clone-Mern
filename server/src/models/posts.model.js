@@ -118,6 +118,11 @@ postsSchema.statics = {
     let user = await this.find({ username: username }).exec();
     return user;
   },
+
+  async getPostOnId(id) {
+    let post = await this.findOne({ _id: id }).exec();
+    return post;
+  },
 };
 
 module.exports = mongoose.model("Posts", postsSchema);
