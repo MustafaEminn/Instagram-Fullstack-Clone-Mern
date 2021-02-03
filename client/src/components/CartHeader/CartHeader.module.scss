@@ -49,15 +49,15 @@
     text-align: center;
     font-weight: 600;
     cursor: pointer;
+  }
 
-    &:nth-child(1) {
-      padding-bottom: 10px;
-      border-bottom: 1px solid var(--gray-db);
-      color: var(--red-ed);
-    }
+  & .delete {
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--gray-db);
+    color: var(--red-ed);
+  }
 
-    &:nth-child(2) {
-      margin-top: 10px;
-    }
+  & .close {
+    margin-top: 10px;
   }
 }

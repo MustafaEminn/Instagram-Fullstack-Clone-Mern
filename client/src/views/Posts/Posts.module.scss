@@ -19,7 +19,7 @@
   max-width: 841px;
   max-height: 598px;
   height: 80vh;
-  overflow-y: scroll;
+  overflow-y: hidden;
 
   .postsImage {
     @include respond(735) {
@@ -109,7 +109,7 @@
       max-height: 373px;
       flex-direction: column;
       justify-content: flex-start;
-      overflow-y: scroll;
+      overflow-y: auto;
     }
 
     & .pdcHead {
@@ -156,6 +156,7 @@
         word-break: break-word;
         text-align: left;
         max-width: 270px;
+        padding-right: 5px;
         & span {
           color: var(--black-26);
           font-size: 14px;

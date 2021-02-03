@@ -52,13 +52,14 @@ const Home = () => {
     const getPosts = async () => {
       var promisePosts: any = getData(`${API_URL}/api/posts/getAll`);
       var setPosts = await promisePosts;
-      setData(setPosts?.data?.data);
+      let data = setPosts?.data?.data;
+      data?.reverse();
+      setData(data);
       setLoadingPost(false);
     };
     const getUser = async () => {
       var promisePosts: any = postData(`${API_URL}/api/auth/getUser`);
       var user = await promisePosts;
-      console.log(user);
       setUser(user?.data?.data);
       setLoadingUser(false);
     };

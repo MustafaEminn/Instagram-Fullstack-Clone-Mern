@@ -4,6 +4,7 @@ import { postData } from "../../utils/API";
 import { API_URL } from "../../utils/API_SETTINGS";
 import Avatar from "../Avatar";
 import Modal from "../Modal";
+import Spinner from "../Spinner";
 import styles from "./CartHeader.module.scss";
 
 interface cartHeader {
@@ -21,23 +22,25 @@ const CartHeader = ({
   username,
   obId,
 }: cartHeader) => {
-  const [followBool, setFollowBool] = React.useState<boolean>();
+  const [followBool, setFollowBool] = React.useState<boolean>(true);
   const [visibleModal, setVisibleModal] = React.useState<boolean>();
   const [postAdmin, setPostAdmin] = React.useState<boolean>(false);
+  const [modalLoading, setModalLoading] = React.useState<boolean>(true);
 
   const toggleFollow = async () => {
     const req = postData(`${API_URL}/api/auth/toggleFollow`, {
-      username: localStorage.getItem("username"),
       usernamePost: username,
     });
+    const getUsernameByToken = postData(`${API_URL}/api/auth/toggleFollow`);
+    const resUsername = await getUsernameByToken;
+    let myPost = resUsername?.username !== username;
     const res = await req;
-    return res?.data?.data ? setFollowBool(!followBool) : void 0;
+    return res?.data?.data && myPost ? setFollowBool(!followBool) : void 0;
   };
 
   const checkFollow = async () => {
     const req = postData(`${API_URL}/api/auth/checkFollow`, {
       usernamePost: username,
-      username: localStorage.getItem("username"),
     });
     const res = await req;
     return res?.data?.data ? setFollowBool(true) : setFollowBool(false);
@@ -45,10 +48,14 @@ const CartHeader = ({
 
   const checkPostAdmin = async () => {
     const req = postData(`${API_URL}/api/posts/checkPostAdmin`, {
-      usernamePost: username,
+      postID: obId,
     });
     const res = await req;
-    return res?.data?.success ? setPostAdmin(true) : setPostAdmin(false);
+    const resUnpromise = await res;
+    setModalLoading(false);
+    return resUnpromise?.data?.success
+      ? setPostAdmin(true)
+      : setPostAdmin(false);
   };
 
   const deletePost = async () => {
@@ -63,6 +70,7 @@ const CartHeader = ({
 
   const dotsClick = () => {
     setVisibleModal(true);
+    setModalLoading(true);
     checkPostAdmin();
   };
 
@@ -102,16 +110,26 @@ const CartHeader = ({
 
       <Modal
         width="400px"
-        height="110px"
+        height="auto"
         visible={visibleModal}
         onClose={() => {
           setVisibleModal(false);
         }}
       >
-        {postAdmin ? (
+        {modalLoading ? (
+          <Spinner
+            width="100%"
+            height="100%"
+            spinnerWidth="25px"
+            spinnerHeight="25px"
+          />
+        ) : postAdmin ? (
           <ul className={styles.dotsModalContainer}>
-            <li onClick={deletePost}>Delete</li>
+            <li className={styles.delete} onClick={deletePost}>
+              Delete
+            </li>
             <li
+              className={styles.close}
               onClick={() => {
                 setVisibleModal(false);
               }}
@@ -122,6 +140,7 @@ const CartHeader = ({
         ) : (
           <ul className={styles.dotsModalContainer}>
             <li
+              className={styles.close}
               onClick={() => {
                 setVisibleModal(false);
               }}

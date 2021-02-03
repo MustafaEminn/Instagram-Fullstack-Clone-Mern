@@ -106,9 +106,9 @@ postsSchema.statics = {
     }
   },
 
-  async checkPostAdmin(username, id) {
-    let user = await this.findOne({ username: username }).exec();
-    if (user._id === id) {
+  async checkPostAdmin(postID, username) {
+    let post = await this.findOne({ _id: postID }).exec();
+    if (post.username === username) {
       return true;
     } else {
       return false;

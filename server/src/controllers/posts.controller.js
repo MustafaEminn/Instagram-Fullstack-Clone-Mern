@@ -53,10 +53,10 @@ exports.addComment = async (req, res, next) => {
 
 exports.checkPostAdmin = async (req, res, next) => {
   try {
-    const { usernamePost } = req.body;
+    const { postID } = req.body;
     let auth = await req.headers.authorization;
     var jwtDecoded = await jwtDecode(auth);
-    const postAdmin = Posts.checkPostAdmin(usernamePost, jwtDecoded.sub);
+    const postAdmin = await Posts.checkPostAdmin(postID, jwtDecoded.username);
     return res.status(200).send({ success: postAdmin });
   } catch (error) {
     console.log(error);

@@ -1,4 +1,4 @@
-import React, { ReactChild, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Logo from "../components/Logo";
 import styles from "./Layout.module.scss";
 
@@ -9,17 +9,34 @@ import SendIcon from "../assets/images/global/icons/Send";
 import ExploreIcon from "../assets/images/global/icons/Explore";
 import HearthIcon from "../assets/images/global/icons/Hearth";
 import Avatar from "../components/Avatar";
+import { Link } from "react-router-dom";
+import { postData } from "../utils/API";
+import { API_URL } from "../utils/API_SETTINGS";
 
 const Layout = ({ children }: any) => {
   const path = window.location.pathname;
 
   const [inputValue, setInputValue] = useState("");
+  const [profile, setProfile] = useState<any>();
+
+  useEffect(() => {
+    const getUser = async () => {
+      var dataPromise = postData(`${API_URL}/api/auth/getUser`);
+      var res = await dataPromise;
+      if (res?.data?.data) {
+        setProfile(res?.data?.data);
+      }
+    };
+    getUser();
+  }, []);
   return (
     <div className={styles.container}>
       <div className={styles.containerHeader}>
         <div className={styles.boxHeader}>
           <div className={styles.box1}>
-            <Logo height="29" width="103" />
+            <Link to="/home">
+              <Logo height="29" width="103" />
+            </Link>
           </div>
           <div className={styles.box2}>
             <label>
@@ -70,7 +87,9 @@ const Layout = ({ children }: any) => {
               height={22}
               color={path === "/notifications" ? "black" : void 0}
             />
-            <Avatar width={22} height={22} />
+            <Link to={`/profiles/${profile?.username}`}>
+              <Avatar width={22} height={22} />
+            </Link>
           </div>
         </div>
       </div>

@@ -13,11 +13,16 @@ import BookmarkIcon from "../../assets/images/global/icons/Bookmark";
 import moment from "moment";
 import CartPost from "../../components/CartPost";
 import Avatar from "../../components/Avatar";
+import CommentRelease from "../../assets/images/global/icons/CommentRelease.svg";
+import { postCommentTrigger as PCT } from "../../store/atom";
+import { useRecoilValue } from "recoil";
 
 const Posts = () => {
   const [loading, setLoading] = useState(true);
+  const [onAddComment, setOnAddComment] = useState<any>([]);
   const [data, setData] = useState<any>();
   const [profile, setProfile] = useState<any>();
+  const onPostComment = useRecoilValue(PCT);
   const location = useLocation();
   const link = useHistory();
   useEffect(() => {
@@ -45,6 +50,14 @@ const Posts = () => {
     getPost();
     getUser();
   }, []);
+
+  useEffect(() => {
+    if (onPostComment.id.length > 0) {
+      let newData = [...onAddComment, onPostComment];
+      console.log(newData);
+      setOnAddComment(newData);
+    }
+  }, [onPostComment]);
   return (
     <div>
       {loading ? (
@@ -109,6 +122,20 @@ const Posts = () => {
                     <p>{data?.username}</p>
                     <p>{data?.description}</p>
                   </div>
+                  {/* Below code run on add comment */}
+                  {onAddComment?.map((item: any) => {
+                    return (
+                      <div className={styles.pdcComment}>
+                        <Avatar width={32} height={32} />
+                        <p>
+                          <span>{item.username}</span>&nbsp;
+                          {item.message}
+                        </p>
+                      </div>
+                    );
+                  })}
+
+                  {/*  DB Comments Map */}
                   {data.comments?.map((item: any) => {
                     return (
                       <div className={styles.pdcComment}>
@@ -131,7 +158,7 @@ const Posts = () => {
                         index={1}
                         postPage={true}
                       />
-                      <CommentPostIcon width={24} height={24} />
+                      <img src={CommentRelease} alt="Comment" />
                       <SendIcon width={24} height={24} />
                     </div>
                     <div className={styles.iconsBox2}>

@@ -28,7 +28,7 @@ exports.login = async (req, res, next) => {
   try {
     const user = await User.findAndGenerateToken(req.body);
     if (user) {
-      const payload = { sub: user.id };
+      const payload = { sub: user.id, username: user.username };
       const token = jwt.sign(payload, config.secret, { expiresIn: "1d" });
       return res.send({ success: true, message: "OK", token: token });
     } else {
@@ -92,8 +92,10 @@ exports.checkBookmark = async (req, res, next) => {
 
 exports.toggleFollow = async (req, res, next) => {
   try {
-    const { username, usernamePost } = req.body;
-    const follow = await User.toggleFollow(username, usernamePost);
+    const { usernamePost } = req.body;
+    let auth = await req.headers.authorization;
+    var jwtDecoded = await jwtDecode(auth);
+    const follow = await User.toggleFollow(jwtDecoded.username, usernamePost);
     res.send({ success: true, data: follow });
   } catch (error) {
     console.log(error);
@@ -102,8 +104,10 @@ exports.toggleFollow = async (req, res, next) => {
 
 exports.checkFollow = async (req, res, next) => {
   try {
-    const { username, usernamePost } = req.body;
-    const follow = await User.checkFollow(username, usernamePost);
+    const { usernamePost } = req.body;
+    let auth = await req.headers.authorization;
+    var jwtDecoded = await jwtDecode(auth);
+    const follow = await User.checkFollow(jwtDecoded.username, usernamePost);
     res.send({ success: true, data: follow });
   } catch (error) {
     console.log(error);

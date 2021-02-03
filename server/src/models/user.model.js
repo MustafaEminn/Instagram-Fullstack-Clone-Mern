@@ -189,7 +189,7 @@ userSchema.statics = {
         return follow;
       }
     } else {
-      const newList = bookmarkCheck.bookmarks.filter((item) => {
+      const newList = followCheck.follows.filter((item) => {
         return item !== usernamePost;
       });
       const follow = await this.findOneAndUpdate(

@@ -13,43 +13,80 @@ import CommentIcon from "../../assets/images/global/icons/Comment";
 
 const Profiles = () => {
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState<any>();
-  const [profile, setProfile] = useState<string>();
+  const [userProfile, setUserProfile] = useState<any>();
+  const [user, setUser] = useState<any>();
+  const [followBool, setFollowBool] = useState(false);
   const [posts, setPosts] = useState<any>();
-  const location = useLocation();
   const link = useHistory();
+  const profile = useLocation().pathname.split("/")[2];
 
   const clickPost = (path: string) => {
     return link.push(`/posts/${path}`);
   };
 
+  const checkFollow = async () => {
+    const req = postData(`${API_URL}/api/auth/checkFollow`, {
+      usernamePost: profile,
+    });
+    const res = await req;
+    return res?.data?.data ? setFollowBool(true) : setFollowBool(false);
+  };
+
+  const toggleFollow = async () => {
+    const req = postData(`${API_URL}/api/auth/toggleFollow`, {
+      usernamePost: profile,
+    });
+    const res = await req;
+    return res?.data?.data ? setFollowBool(!followBool) : void 0;
+  };
+
+  const getUser = async () => {
+    var dataPromise = postData(`${API_URL}/api/auth/getUser`);
+    var res = await dataPromise;
+    if (res?.data?.data) {
+      setUser(res?.data?.data);
+    } else {
+      return link.push("/404");
+    }
+  };
+  const getUserProfile = async () => {
+    var dataPromise = postData(`${API_URL}/api/auth/getUserOnUsername`, {
+      username: profile,
+    });
+    var res = await dataPromise;
+    if (res?.data?.data) {
+      setUserProfile(res?.data?.data);
+    } else {
+      return link.push("/404");
+    }
+  };
+  const getUserPosts = async () => {
+    var dataPromise = postData(`${API_URL}/api/posts/getUserPost`, {
+      username: profile,
+    });
+    var res = await dataPromise;
+    var data = res?.data?.data;
+    data?.reverse();
+    if (data) {
+      setPosts(data);
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const getUser = async () => {
-      var dataPromise = postData(`${API_URL}/api/auth/getUserOnUsername`, {
-        username: location.pathname.split("/")[2],
-      });
-      var res = await dataPromise;
-      if (res?.data?.data) {
-        setData(res?.data?.data);
-      } else {
-        return link.push("/404");
-      }
-    };
-    const getUserPosts = async () => {
-      var dataPromise = postData(`${API_URL}/api/posts/getUserPost`, {
-        username: location.pathname.split("/")[2],
-      });
-      var res = await dataPromise;
-      if (res?.data?.data) {
-        setPosts(res?.data?.data);
-        setLoading(false);
-        console.log(res.data);
-      }
-    };
-    setProfile(location.pathname.split("/")[2]);
     getUser();
+    getUserProfile();
     getUserPosts();
+    checkFollow();
   }, []);
+
+  useEffect(() => {
+    setLoading(true);
+    getUser();
+    getUserProfile();
+    getUserPosts();
+    checkFollow();
+  }, [window.location.pathname]);
 
   return (
     <div>
@@ -75,10 +112,16 @@ const Profiles = () => {
             <div className={styles.headContent}>
               <div className={styles.hcBox1}>
                 <h1>{profile}</h1>
-                {profile === data.username ? (
+                {profile === user?.username ? (
                   <button className={styles.editProfile}>Edit Profile</button>
+                ) : followBool ? (
+                  <button onClick={toggleFollow} className={styles.unfollow}>
+                    Unfollow
+                  </button>
                 ) : (
-                  <button className={styles.follow}>Follow</button>
+                  <button onClick={toggleFollow} className={styles.follow}>
+                    Follow
+                  </button>
                 )}
               </div>
               <div className={styles.hcBox2}>
@@ -86,11 +129,11 @@ const Profiles = () => {
                   <span>{posts?.length}</span> posts
                 </h1>
                 <h1 className={styles.hc2Content2}>
-                  <span>{data?.follows.length}</span> following
+                  <span>{userProfile?.follows.length}</span> following
                 </h1>
               </div>
               <div className={styles.hcBox3}>
-                <h1>{data?.fullname}</h1>
+                <h1>{userProfile?.fullname}</h1>
               </div>
             </div>
           </div>
@@ -136,7 +179,7 @@ const Profiles = () => {
                           </div>
                         </div>
                       ) : (
-                        void 0
+                        <div className={styles.psContainerBlank}></div>
                       )}
                       {posts[imgIndex + 1] !== undefined ? (
                         <div
@@ -164,7 +207,7 @@ const Profiles = () => {
                           </div>
                         </div>
                       ) : (
-                        void 0
+                        <div className={styles.psContainerBlank}></div>
                       )}
                       {posts[imgIndex + 2] !== undefined ? (
                         <div
@@ -192,7 +235,7 @@ const Profiles = () => {
                           </div>
                         </div>
                       ) : (
-                        void 0
+                        <div className={styles.psContainerBlank}></div>
                       )}
                     </div>
                   </div>

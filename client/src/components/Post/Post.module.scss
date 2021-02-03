@@ -67,7 +67,9 @@
 
     & p {
       font-size: 14px;
+      overflow: hidden;
       font-weight: 400;
+      text-overflow: ellipsis;
     }
   }
 

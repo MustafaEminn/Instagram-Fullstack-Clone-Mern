@@ -9,6 +9,7 @@ import { photoClickTrigger, postCommentTrigger as PCT } from "../../store/atom";
 import CartPost from "../CartPost";
 import moment from "moment";
 import CommentPostIcon from "../../assets/images/global/icons/CommentPost";
+import { Link } from "react-router-dom";
 
 interface post {
   data: any;
@@ -68,13 +69,20 @@ const Post = ({ data, index }: post) => {
           height={115}
           opacity={0.8}
         />
-        <img className={styles.img} src={data.img} alt="Post photo" />
+        <img
+          className={styles.img}
+          src={data.img}
+          onDragStart={(e) => e.preventDefault()}
+          alt="Post photo"
+        />
       </span>
       <div className={styles.cartInfo}>
         <div className={styles.cartIcons}>
           <div className={styles.CILeft}>
             <HearthIcon obId={data._id} width={24} height={24} index={index} />
-            <CommentPostIcon width={24} height={24} />
+            <Link to={`/posts/${data?._id}`}>
+              <CommentPostIcon width={24} height={24} />
+            </Link>
             <SendIcon width={24} height={24} />
           </div>
           <div className={styles.CIRight}>
