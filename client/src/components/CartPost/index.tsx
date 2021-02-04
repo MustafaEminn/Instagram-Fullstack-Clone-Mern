@@ -10,9 +10,10 @@ interface cartpost {
   height: string;
   index: number;
   postInfo: { name: string; obId: string };
+  maxWidth?: string;
 }
 
-const CartPost = ({ width, height, index, postInfo }: cartpost) => {
+const CartPost = ({ width, height, index, postInfo, maxWidth }: cartpost) => {
   const [textValue, setTextValue] = useState("");
   const [postCommentTrigger, setPostCommentTrigger] = useRecoilState(PCT);
   const textareaChecker = () => {
@@ -60,7 +61,12 @@ const CartPost = ({ width, height, index, postInfo }: cartpost) => {
 
   return (
     <div
-      style={{ width: width, height: height, minHeight: height }}
+      style={{
+        width: width,
+        height: height,
+        minHeight: height,
+        maxWidth: maxWidth,
+      }}
       id={`cartPostContainer${index}`}
       className={styles.container}
     >

@@ -1,4 +1,7 @@
 .cart {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
   margin-bottom: 60px;
 }
 
@@ -6,20 +9,22 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 614px;
+  max-width: 614px;
+  width: 100%;
   svg {
     position: absolute;
   }
   .img {
-    width: 614px;
-    height: 346px;
+    width: 100%;
+    max-width: 614px;
   }
 }
 
 .cartInfo {
   background-color: var(--white);
   border: 1px solid var(--gray-ef);
-  width: 614px;
+  max-width: 614px;
+  width: 100%;
 
   & .cartIcons {
     display: flex;

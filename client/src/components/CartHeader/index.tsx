@@ -13,6 +13,7 @@ interface cartHeader {
   width: string;
   username: string;
   obId: string;
+  maxWidth?: string;
 }
 
 const CartHeader = ({
@@ -21,21 +22,19 @@ const CartHeader = ({
   width,
   username,
   obId,
+  maxWidth,
 }: cartHeader) => {
   const [followBool, setFollowBool] = React.useState<boolean>(true);
   const [visibleModal, setVisibleModal] = React.useState<boolean>();
-  const [postAdmin, setPostAdmin] = React.useState<boolean>(false);
+  const [postAdmin, setPostAdmin] = React.useState<boolean>(true);
   const [modalLoading, setModalLoading] = React.useState<boolean>(true);
 
   const toggleFollow = async () => {
     const req = postData(`${API_URL}/api/auth/toggleFollow`, {
       usernamePost: username,
     });
-    const getUsernameByToken = postData(`${API_URL}/api/auth/toggleFollow`);
-    const resUsername = await getUsernameByToken;
-    let myPost = resUsername?.username !== username;
     const res = await req;
-    return res?.data?.data && myPost ? setFollowBool(!followBool) : void 0;
+    return res?.data?.data ? setFollowBool(!followBool) : void 0;
   };
 
   const checkFollow = async () => {
@@ -76,9 +75,13 @@ const CartHeader = ({
 
   React.useEffect(() => {
     checkFollow();
+    checkPostAdmin();
   }, []);
   return (
-    <div style={{ height: height, width: width }} className={styles.container}>
+    <div
+      style={{ height: height, width: width, maxWidth: maxWidth }}
+      className={styles.container}
+    >
       <div className={styles.pageName}>
         <Avatar
           width={32}

@@ -29,6 +29,12 @@
     }
   }
 
+  @if $breakpoint==630 {
+    @media only screen and (max-width: 630px) {
+      @content;
+    }
+  }
+
   @if $breakpoint==545 {
     @media only screen and (max-width: 545px) {
       @content;

@@ -1,5 +1,36 @@
+@import "../../themes/index.scss";
+
+@include respond(992) {
+  .sidebar {
+    display: none !important;
+  }
+  .container {
+    & .box1 {
+      align-items: center;
+
+      & .addPost {
+        align-self: flex-start;
+      }
+    }
+  }
+}
+
+@include respond(630) {
+  .container {
+    & .box1 {
+      align-items: unset;
+    }
+  }
+}
 .container {
   display: flex;
+
+  & .box1 {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    width: 100%;
+  }
 }
 
 .addPost {
@@ -69,5 +100,9 @@
     margin-top: 30px;
     cursor: pointer;
     background: var(--blue-00);
+
+    &:disabled {
+      opacity: 0.5;
+    }
   }
 }

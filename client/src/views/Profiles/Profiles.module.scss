@@ -1,10 +1,26 @@
+@import "../../themes/index.scss";
+
 .profileHead {
   margin-top: 30px;
   display: flex;
   width: 100%;
   padding-bottom: 30px;
   border-bottom: 1px solid var(--gray-db);
+  @include respond(735) {
+    .hcBox1 {
+      flex-direction: column;
+      flex: 1;
+      & button {
+        width: 100% !important;
+        margin-left: 0 !important;
+        margin-top: 20px;
+      }
+    }
 
+    .headContent {
+      width: 100%;
+    }
+  }
   .hcBox1 {
     display: flex;
 
@@ -80,6 +96,54 @@
       font-weight: 600;
       font-size: 16px;
       letter-spacing: 0.5px;
+    }
+  }
+}
+
+// MOBILE BREAK POINT
+@include respond(735) {
+  .mobileBar {
+    display: flex !important;
+  }
+  .hcBox2 {
+    display: none !important;
+  }
+  .profileHead {
+    & div:nth-child(1) {
+      margin: 0 16px 0 16px !important;
+    }
+  }
+
+  .hcBox3 {
+    margin-left: 16px !important;
+  }
+}
+.mobileBar {
+  display: none;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  height: 53px;
+  border: 1px solid var(--gray-db);
+
+  & div {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    height: 53px;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 500;
+
+    & p:nth-child(1) {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--black-26);
+    }
+    & p:nth-child(2) {
+      color: var(--gray-8e);
+      font-size: 14px;
     }
   }
 }

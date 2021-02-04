@@ -45,10 +45,11 @@ const Post = ({ data, index }: post) => {
     <div className={styles.cart}>
       <CartHeader
         username={data.username}
-        width="614px"
+        width="100%"
         height="60px"
         pageName={data.username}
         obId={data._id}
+        maxWidth="614px"
       />
       <span
         onDoubleClick={() => {
@@ -131,8 +132,9 @@ const Post = ({ data, index }: post) => {
         <CartPost
           postInfo={{ name: data.username, obId: data._id }}
           index={index}
-          width="614px"
+          width="100%"
           height="56px"
+          maxWidth="614px"
         />
       </div>
     </div>

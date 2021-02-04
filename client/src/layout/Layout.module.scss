@@ -25,6 +25,7 @@
 .box1 {
   & img {
     margin-top: 10px;
+    margin-left: 10px;
   }
 }
 
@@ -39,10 +40,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    @include respond(480) {
+      display: none;
+    }
     & input {
       @include respond(545) {
         width: 70px;
       }
+
       background-color: var(--gray-fa);
       outline: none;
       border: 1px solid var(--gray-db);

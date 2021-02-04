@@ -14,6 +14,7 @@ const Home = () => {
   const [file, setFile] = useState("");
   const [content, setContent] = useState("");
   const [visible, setVisible] = useState(false);
+  const [addPostLoading, setAddPostLoading] = useState(false);
   const [loadingPost, setLoadingPost] = useState(true);
   const [loadingUser, setLoadingUser] = useState(true);
   const [user, setUser] = useState<any>();
@@ -31,7 +32,17 @@ const Home = () => {
     setFile(await reader);
   };
 
+  const getPosts = async () => {
+    var promisePosts: any = getData(`${API_URL}/api/posts/getAll`);
+    var setPosts = await promisePosts;
+    let data = setPosts?.data?.data;
+    data?.reverse();
+    setData(data);
+    setLoadingPost(false);
+  };
+
   const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    setAddPostLoading(true);
     e.preventDefault();
     const req = postData(`${API_URL}/api/posts/postsCreate`, {
       username: localStorage.getItem("username"),
@@ -43,8 +54,11 @@ const Home = () => {
       fileInputRef.current.value = "";
       contentInputRef.current.value = "";
       setVisible(false);
+      getPosts();
+      setAddPostLoading(false);
     } else {
       alert("Ops! Something went wrong.");
+      setAddPostLoading(false);
     }
   };
 
@@ -77,7 +91,7 @@ const Home = () => {
           </button>
           {loadingPost ? (
             <Spinner
-              width="614px"
+              width="100%"
               height="100px"
               spinnerWidth="20px"
               spinnerHeight="20px"
@@ -101,7 +115,7 @@ const Home = () => {
       <Modal
         visible={visible}
         onClose={() => setVisible(false)}
-        width="500px"
+        width="50%"
         height="200px"
       >
         <div className={styles.modal}>
@@ -135,6 +149,7 @@ const Home = () => {
             </label>
 
             <input
+              disabled={addPostLoading ? true : false}
               className={styles.submitInput}
               type="submit"
               value="Create Post"

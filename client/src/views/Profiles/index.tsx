@@ -16,6 +16,7 @@ const Profiles = () => {
   const [userProfile, setUserProfile] = useState<any>();
   const [user, setUser] = useState<any>();
   const [followBool, setFollowBool] = useState(false);
+  const [mobile, setMobile] = useState(window.innerWidth < 735 ? true : false);
   const [posts, setPosts] = useState<any>();
   const link = useHistory();
   const profile = useLocation().pathname.split("/")[2];
@@ -87,7 +88,9 @@ const Profiles = () => {
     getUserPosts();
     checkFollow();
   }, [window.location.pathname]);
-
+  window.addEventListener("resize", () => {
+    setMobile(window.innerWidth < 735 ? true : false);
+  });
   return (
     <div>
       <AuthMiddleware onAuth={false} noAuth="/" />
@@ -102,27 +105,29 @@ const Profiles = () => {
         <Layout>
           <div className={styles.profileHead}>
             <Avatar
-              width={150}
-              height={150}
+              width={mobile ? 77 : 145}
+              height={mobile ? 77 : 145}
               border
-              borderHeight={205}
-              borderWidth={205}
+              borderHeight={mobile ? 107 : 205}
+              borderWidth={mobile ? 107 : 205}
               margin="0 101px 0 71px"
             />
             <div className={styles.headContent}>
               <div className={styles.hcBox1}>
                 <h1>{profile}</h1>
-                {profile === user?.username ? (
-                  <button className={styles.editProfile}>Edit Profile</button>
-                ) : followBool ? (
-                  <button onClick={toggleFollow} className={styles.unfollow}>
-                    Unfollow
-                  </button>
-                ) : (
-                  <button onClick={toggleFollow} className={styles.follow}>
-                    Follow
-                  </button>
-                )}
+                <div className={styles.hcBox1BP}>
+                  {profile === user?.username ? (
+                    <button className={styles.editProfile}>Edit Profile</button>
+                  ) : followBool ? (
+                    <button onClick={toggleFollow} className={styles.unfollow}>
+                      Unfollow
+                    </button>
+                  ) : (
+                    <button onClick={toggleFollow} className={styles.follow}>
+                      Follow
+                    </button>
+                  )}
+                </div>
               </div>
               <div className={styles.hcBox2}>
                 <h1 className={styles.hc2Content1}>
@@ -137,7 +142,18 @@ const Profiles = () => {
               </div>
             </div>
           </div>
-
+          {/* MOBILE FOLLOW POST BAR BEGIN */}
+          <div className={styles.mobileBar}>
+            <div className={styles.mbBox1}>
+              <p>{posts?.length}</p>
+              <p>posts</p>
+            </div>
+            <div className={styles.mbBox2}>
+              <p>{userProfile?.follows.length}</p>
+              <p>following</p>
+            </div>
+          </div>
+          {/* MOBILE FOLLOW POST BAR END */}
           <div className={styles.contentNavbar}>
             <button className={styles.cnBox1}>
               <img src={postsIcon} alt="Posts Icon" />
