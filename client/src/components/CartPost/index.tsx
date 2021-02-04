@@ -44,7 +44,10 @@ const CartPost = ({ width, height, index, postInfo, maxWidth }: cartpost) => {
     if (textValue.length >= 10) {
       let req = postData(
         `${API_URL}/api/posts/addComment`,
-        JSON.stringify({ ...postInfo, message: textValue })
+        JSON.stringify({
+          obId: postInfo.obId,
+          message: textValue,
+        })
       );
 
       let res = await req;

@@ -42,7 +42,10 @@ exports.addLike = async (req, res, next) => {
 
 exports.addComment = async (req, res, next) => {
   try {
-    const { obId, name, message } = req.body;
+    const { obId, message } = req.body;
+    let auth = await req.headers.authorization;
+    var jwtDecoded = await jwtDecode(auth);
+    const name = jwtDecoded.username;
     const comment = Posts.addComment(obId, name, message);
     return res.status(200).send({ success: true, data: comment });
   } catch (error) {

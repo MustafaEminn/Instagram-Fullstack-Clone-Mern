@@ -10,6 +10,8 @@ import CartPost from "../CartPost";
 import moment from "moment";
 import CommentPostIcon from "../../assets/images/global/icons/CommentPost";
 import { Link } from "react-router-dom";
+import { postData } from "../../utils/API";
+import { API_URL } from "../../utils/API_SETTINGS";
 
 interface post {
   data: any;
@@ -29,17 +31,24 @@ const Post = ({ data, index }: post) => {
   }, [comments]);
 
   useEffect(() => {
-    if (postCommentTrigger.id === data._id) {
-      let newComments = [
-        {
-          username: postCommentTrigger.username,
-          message: postCommentTrigger.message,
-        },
-        ...comments,
-      ];
-      setComments(newComments);
-      setCommentsNumberPlus(commentsNumberPlus + 1);
-    }
+    const getUser = async () => {
+      if (postCommentTrigger.id === data._id) {
+        let username = "";
+        var promisePosts: any = postData(`${API_URL}/api/auth/getUser`);
+        var user = await promisePosts;
+        username = user?.data?.data?.username;
+        let newComments = [
+          {
+            username: username,
+            message: postCommentTrigger.message,
+          },
+          ...comments,
+        ];
+        setComments(newComments);
+        setCommentsNumberPlus(commentsNumberPlus + 1);
+      }
+    };
+    getUser();
   }, [postCommentTrigger]);
   return (
     <div className={styles.cart}>
@@ -75,6 +84,7 @@ const Post = ({ data, index }: post) => {
           src={data.img}
           onDragStart={(e) => e.preventDefault()}
           alt="Post photo"
+          loading="lazy"
         />
       </span>
       <div className={styles.cartInfo}>
